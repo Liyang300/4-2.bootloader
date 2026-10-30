@@ -3,7 +3,7 @@
 .\objects\ds18b20.o: .\SYSTEM\sys\sys.h
 .\objects\ds18b20.o: .\start\stm32f10x.h
 .\objects\ds18b20.o: .\start\core_cm3.h
-.\objects\ds18b20.o: D:\Lab\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\ds18b20.o: D:\Lab\Keil5.36\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\ds18b20.o: .\start\system_stm32f10x.h
 .\objects\ds18b20.o: .\User\stm32f10x_conf.h
 .\objects\ds18b20.o: .\library\stm32f10x_adc.h
