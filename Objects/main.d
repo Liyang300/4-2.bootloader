@@ -35,4 +35,7 @@
 .\objects\main.o: D:\Lab\Keil5.36\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: D:\Lab\Keil5.36\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: .\HARDWARE\DS18B20\ds18b20.h
+.\objects\main.o: .\SYSTEM\usart\usart.h
 .\objects\main.o: D:\Lab\Keil5.36\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: .\HARDWARE\bootloader\BSP_Init.h
+.\objects\main.o: .\HARDWARE\bootloader\bootloader_config.h

@@ -2,12 +2,16 @@
 #define _BOOTLOADER_CONFIG
 
 
-#define UART2_RX_DMA_BUF_LEN  512u    /* Ã¿¸ö DMA Ë«»º³åÇøµÄ³¤¶È(×Ö½Ú)£¬½¨Òé 2 µÄÃÝ */
-#define UART2_RX_FIFO_LEN     1024u    /* Ó¦ÓÃ²ã½ÓÊÕ FIFO ³¤¶È(×Ö½Ú)£¬½¨Òé 2 µÄÃÝ */
+#define UART2_RX_DMA_BUF_LEN  512u    /* dmaç¼“å†²åŒºå— */
+#define UART2_RX_FIFO_LEN     1024u    /*åº”ç”¨å…¨å±€ç¼“å†²åŒº */
 
 
+
+#define UART2_BAUD    115200u    /* USART2 æ³¢ç‰¹çŽ‡ï¼ŒåŠ¡å¿…ä¸Žä¸²å£åŠ©æ‰‹è®¾ç½®ä¸€è‡´ */
 #define UART2_DMA_TX  GPIO_Pin_2
 #define UART2_DMA_RX  GPIO_Pin_3
+
+
 
 
 

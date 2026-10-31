@@ -10,7 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\start;.\User;.\library;.\SYSTEM\delay;.\SYSTEM\sys;.\SYSTEM\usart;.\HARDWARE\DS18B20;.\HARDWARE\LED;.\HARDWARE\OLED</IncludePath>
+              <IncludePath>.\start;.\User;.\library;.\SYSTEM\delay;.\SYSTEM\sys;.\SYSTEM\usart;.\HARDWARE\DS18B20;.\HARDWARE\LED;.\HARDWARE\OLED;.\HARDWARE\bootloader</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -742,6 +742,16 @@
               <FileName>bootloader_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\HARDWARE\bootloader\bootloader_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>data_process.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\bootloader\data_process.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_process.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HARDWARE\bootloader\data_process.h</FilePath>
             </File>
           </Files>
         </Group>

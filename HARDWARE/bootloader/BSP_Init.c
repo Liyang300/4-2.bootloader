@@ -21,7 +21,7 @@ static volatile uint32_t uart2_drop_cnt = 0;
 
 static volatile uint8_t  swapping = 0;
 
-static Buffer_status rx_sta = {0};
+static volatile Buffer_status rx_sta = {0};
 
 
 
@@ -150,16 +150,16 @@ static void uart2_dma_swap(void)
 	
 	if(swapping)
 	{
-		swapping = 0;
+		
 		return;
 	}
 	swapping = 1;
 	
-  uint16_t remain;    //¼Ä´æÆ÷Öµ
+  uint16_t remain;    //dmaè®¡æ•°Öµ
 	
 	DMA_Cmd(DMA1_Channel6, DISABLE);
 	
-	//ÇĞ»»»º³åÇø
+	//çŠ¶æ€æ ‡è®°
 	rx_sta.done   = uart2_dma_active;
 	remain = DMA_GetCurrDataCounter(DMA1_Channel6);
 	rx_sta.recv   = (remain < UART2_RX_DMA_BUF_LEN) ? (UART2_RX_DMA_BUF_LEN - remain) : 0u;
@@ -168,8 +168,10 @@ static void uart2_dma_swap(void)
 	
 	
 	if (rx_sta.recv == 0u) 
-	{                                  /* Ã»ÓĞĞÂÊı¾İ£¬Ö±½Ó»Ö¸´ DMA(ÈÔÖ¸Ïòµ±Ç°»º³åÇø)£¬±ÜÃâ½ÓÊÕ±»ÓÀ¾Ã¹Ø±Õ */
+	{                                  /* æ²¡æœ‰æ•°æ®ç›´æ¥è¿”å›*/
     DMA_Cmd(DMA1_Channel6, ENABLE);
+		
+		swapping = 0;
     return;
   }
 	
@@ -181,7 +183,7 @@ static void uart2_dma_swap(void)
 	
 	DMA_SetCurrDataCounter(DMA1_Channel6, UART2_RX_DMA_BUF_LEN);
 	
-	rx_sta.BufferChangeFlag = 1;            /*Í¨ÖªÖ÷Ñ­»·È¡Êı¾İ*/
+	rx_sta.BufferChangeFlag = 1;            /*é€šçŸ¥ä¸»å¾ªç¯å¯ä»¥æ›´æ¢ç¼“å†²åŒºæ‹·è´æ•°æ®*/
 	
 	DMA_Cmd(DMA1_Channel6, ENABLE);
 	
@@ -200,7 +202,7 @@ Buffer_status DMA_Buffer_PUSH(void)
 	}
 	
 	
-	// ¹ØÖĞ¶Ï£¬Ô­×Ó¶Á³öÒ»Õû·İ¿ìÕÕ
+	// å…³ä¸­æ–­èµ‹å€¼
 	__disable_irq();
 	snap = rx_sta;
 	rx_sta.BufferChangeFlag = 0;
@@ -217,6 +219,51 @@ Buffer_status DMA_Buffer_PUSH(void)
 	
 }
 
+//è·å–ä¸€ä¸ªå­—èŠ‚
+int uart2_dma_fifo_getByte(uint8_t *ch)
+{
+	if(uart2_fifo_r == uart2_fifo_w)
+	{
+		return 0;
+	}
+	*ch = uart2_rx_fifo[uart2_fifo_r];
+	uart2_fifo_r = (uart2_fifo_r + 1u) % UART2_RX_FIFO_LEN;
+	
+	return 1;
+}
+
+
+//è·å–æŒ‡å®šé•¿åº¦æ•°æ®
+int uart2_dma_fifo_getData(uint8_t *dst, uint16_t datalen)
+{
+	
+	uint16_t n = 0;
+	uint8_t  byte = 0;
+	while((n < datalen) && (uart2_dma_fifo_getByte(&byte)))
+	{
+		dst[n++] = byte;
+	}
+	
+	return n;
+	
+}
+
+//å‘é€
+void UART2_SendByte(uint8_t b)
+{
+    USART_SendData(USART2, b);
+    while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET) { }
+}
+
+
+//å‘é€ä¸€ä¸ªç¼“å†²åŒº
+void UART2_SendBuf(const uint8_t *pbuf, uint16_t len)
+{
+    for(uint16_t i = 0; i < len; i++)
+    {
+        UART2_SendByte(pbuf[i]);
+    }
+}
 
 
 void USART2_IRQHandler(void)
